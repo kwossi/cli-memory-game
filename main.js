@@ -9,9 +9,8 @@ class Player {
     this.name = name;
     this.score = score;
   }
-  enterPlayerName() {
-    const name = readlineSync.question("Player 1, please enter your name: ");
-    return name;
+  scoreOne() {
+    this.score++;
   }
 }
 
@@ -27,9 +26,20 @@ class Board {
 }
 
 class Tile {
-  constructor(symbol, isRevealed) {
+  constructor(symbol, isRevealed, covered = "[     ]") {
     this.symbol = `[  ${symbol}  ]`;
+    this.display = covered;
     this.isRevealed = isRevealed;
+    this.covered = covered;
+  }
+  revealTile() {
+    this.display = this.symbol;
+  }
+  coverTile() {
+    this.display = this.covered;
+  }
+  tileFound() {
+    this.isRevealed = true;
   }
 }
 
@@ -63,7 +73,8 @@ const createPlayers = () => {
   );
   console.log(`Thank you ${player2Name}. Let's play!`);
   const player2 = new Player(player2Name, 0);
-  return player1, player2;
+  const players = [player1, player2];
+  return players;
 };
 
 const shuffleTiles = (array) => {
@@ -92,15 +103,90 @@ const setNewBoard = () => {
   }
   const shuffled = shuffleTiles(unshuffled);
   const board = new Board(getRows(shuffled));
-  console.log(board);
+  return board;
+};
+
+const showBoard = (board, player1, player2) => {
+  console.log(
+    `\t   1\t   2\t   3\t   4\t   5\n\n
+    A:\t${board.a[0].display} ${board.a[1].display} ${board.a[2].display} ${board.a[3].display} ${board.a[4].display}\n
+    B:\t${board.b[0].display} ${board.b[1].display} ${board.b[2].display} ${board.b[3].display} ${board.b[4].display}\n
+    C:\t${board.c[0].display} ${board.c[1].display} ${board.c[2].display} ${board.c[3].display} ${board.c[4].display}\n
+    D:\t${board.d[0].display} ${board.d[1].display} ${board.d[2].display} ${board.d[3].display} ${board.d[4].display}\n
+    E:\t${board.e[0].display} ${board.e[1].display} ${board.e[2].display} ${board.e[3].display} ${board.e[4].display}\n
+    F:\t${board.f[0].display} ${board.f[1].display} ${board.f[2].display} ${board.f[3].display} ${board.f[4].display}\n\n
+    Score:\t${player1.name}: ${player1.score}\t ${player2.name}: ${player2.score}`
+  );
+};
+
+// Game Play
+
+const getCurrentPlayer = (turnCount, player1, player2) => {
+  return turnCount % 2 === 0 ? player1 : player2;
+};
+
+const getTile = (tile, board) => {
+  const [row, col] = tile.split("");
+  return board[row][+col - 1];
+};
+
+const checkForMatch = (tileA, tileB, currentPlayer, turnCount) => {
+  if (tileA.symbol === tileB.symbol) {
+    console.log(`It's a match!!`);
+    currentPlayer.scoreOne();
+  } else {
+    console.log(`Sorry, no match :(`);
+    tileA.coverTile();
+    tileB.coverTile();
+    turnCount++;
+  }
+  console.log(turnCount);
+  return turnCount;
+};
+
+const OneTurn = (board, turnCount, player1, player2) => {
+  console.clear();
+  showBoard(board, player1, player2);
+  let currentPlayer = getCurrentPlayer(turnCount, player1, player2);
+  let currentTileA = readlineSync.question(
+    `It's ${currentPlayer.name}'s turn. Choose your first tile ( eg. a5): `
+  );
+  currentTileA = getTile(currentTileA, board);
+  currentTileA.revealTile();
+  console.clear();
+  showBoard(board, player1, player2);
+  let currentTileB = readlineSync.question(
+    `Choose your second tile ( eg. c2): `
+  );
+  currentTileB = getTile(currentTileB, board);
+  currentTileB.revealTile();
+  console.clear();
+  showBoard(board, player1, player2);
+  turnCount = checkForMatch(
+    currentTileA,
+    currentTileB,
+    currentPlayer,
+    turnCount
+  );
+  let checkpoint = readlineSync.question(`Press enter for next!`);
+  return turnCount;
+};
+
+const gamePlay = (board, player1, player2, turnCount) => {
+  do {
+    turnCount = OneTurn(board, turnCount, player1, player2);
+  } while (player1.score + player2.score < 15);
+  return turnCount;
 };
 
 //  Game Flow
 
 const startGame = () => {
   console.clear();
-  //createPlayers();
-  setNewBoard();
+  const [player1, player2] = createPlayers();
+  const board = setNewBoard();
+  let turnCount = 0;
+  gamePlay(board, player1, player2, turnCount);
 };
 
 startGame();
