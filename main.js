@@ -1,4 +1,5 @@
 import readlineSync from "readline-sync";
+import chalk from "chalk";
 
 //  MEMORY GAME FOR 2 PLAYERS
 
@@ -26,8 +27,8 @@ class Board {
 }
 
 class Tile {
-  constructor(symbol, isRevealed, covered = "[     ]") {
-    this.symbol = `[  ${symbol}  ]`;
+  constructor(symbol, isRevealed, covered = chalk.bgYellow("[     ]")) {
+    this.symbol = chalk.bgGreen(`[  ${symbol}  ]`);
     this.display = covered;
     this.isRevealed = isRevealed;
     this.covered = covered;
@@ -132,15 +133,16 @@ const getTile = (tile, board) => {
 
 const checkForMatch = (tileA, tileB, currentPlayer, turnCount) => {
   if (tileA.symbol === tileB.symbol) {
-    console.log(`It's a match!!`);
+    console.log(
+      `It's a match!! ${currentPlayer.name} scores + 1 and goes again!`
+    );
     currentPlayer.scoreOne();
   } else {
-    console.log(`Sorry, no match :(`);
+    console.log(`Sorry, no match :( NEXXXTTT!!! `);
     tileA.coverTile();
     tileB.coverTile();
     turnCount++;
   }
-  console.log(turnCount);
   return turnCount;
 };
 
@@ -148,6 +150,8 @@ const OneTurn = (board, turnCount, player1, player2) => {
   console.clear();
   showBoard(board, player1, player2);
   let currentPlayer = getCurrentPlayer(turnCount, player1, player2);
+
+  //   choose Tile a
   let currentTileA = readlineSync.question(
     `It's ${currentPlayer.name}'s turn. Choose your first tile ( eg. a5): `
   );
@@ -155,20 +159,24 @@ const OneTurn = (board, turnCount, player1, player2) => {
   currentTileA.revealTile();
   console.clear();
   showBoard(board, player1, player2);
+
+  //   choose Tile B
   let currentTileB = readlineSync.question(
-    `Choose your second tile ( eg. c2): `
+    `Now, ${currentPlayer.name}, choose your second tile ( eg. c2): `
   );
   currentTileB = getTile(currentTileB, board);
   currentTileB.revealTile();
   console.clear();
   showBoard(board, player1, player2);
+
+  //   Check for Match
   turnCount = checkForMatch(
     currentTileA,
     currentTileB,
     currentPlayer,
     turnCount
   );
-  let checkpoint = readlineSync.question(`Press enter for next!`);
+  readlineSync.question(`Press enter for next round!`);
   return turnCount;
 };
 
@@ -176,7 +184,7 @@ const gamePlay = (board, player1, player2, turnCount) => {
   do {
     turnCount = OneTurn(board, turnCount, player1, player2);
   } while (player1.score + player2.score < 15);
-  return turnCount;
+  return player1.score > player2.score ? player1 : player2;
 };
 
 //  Game Flow
@@ -186,7 +194,10 @@ const startGame = () => {
   const [player1, player2] = createPlayers();
   const board = setNewBoard();
   let turnCount = 0;
-  gamePlay(board, player1, player2, turnCount);
+  let winner = gamePlay(board, player1, player2, turnCount);
+  console.log(
+    `The final score is:\n${player1.name}: ${player1.score} vs. ${player2.name}: ${player2.score}\nCongratulations ${winner.name}! You won the game!`
+  );
 };
 
 startGame();
