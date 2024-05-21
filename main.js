@@ -38,10 +38,9 @@ class Board {
 }
 
 class Tile {
-  constructor(symbol, isRevealed, covered = chalk.bgYellow("[     ]")) {
+  constructor(symbol, covered = chalk.bgYellow("[     ]")) {
     this.symbol = chalk.bgGreen(`[  ${symbol}  ]`);
     this.display = covered;
-    this.isRevealed = isRevealed;
     this.covered = covered;
   }
   revealTile() {
@@ -50,13 +49,12 @@ class Tile {
   coverTile() {
     this.display = this.covered;
   }
-  tileFound() {
-    this.isRevealed = true;
-  }
 }
 
 class Game {
   constructor() {
+    this.welcome = this.welcomeScreen();
+    this.rules = this.showRules();
     this.player1 = this.createPlayer("Player 1");
     this.player2 = this.createPlayer("Player 2");
     this.board = this.setNewBoard();
@@ -64,7 +62,25 @@ class Game {
     this.currentPlayer = this.updateCurrentPlayer();
     this.playGame = this.playGame();
   }
+
   //   Set up
+  welcomeScreen() {
+    console.clear();
+    console.log(
+      `\tWelcome to Memor-ICE\n\n\n\t\tThe coolest memory game for 2 players.\n\n\n`
+    );
+    readlineSync.question(`\t\t\tPress enter to play!`);
+  }
+
+  showRules() {
+    console.clear();
+    console.log(
+      `\tRULES\n\n- Players take turns flipping over two cards, one at a time, trying to find a matching pair.\n\n- If you find a matching pair, you score a point and go again!\n\n- The player with the most points wins!\n\n`
+    );
+    readlineSync.question(`Understood?`);
+    console.clear();
+  }
+
   createPlayer(which) {
     let name = readlineSync.question(`${which}, please enter your name: `);
     console.log(`Thank you ${name}! Please take a seat!`);
@@ -91,8 +107,8 @@ class Game {
   setNewBoard() {
     const unshuffled = [];
     for (let sym of SYMBOLS) {
-      const tileA = new Tile(sym, false);
-      const tileB = new Tile(sym, false);
+      const tileA = new Tile(sym);
+      const tileB = new Tile(sym);
       unshuffled.push(tileA, tileB);
     }
     const shuffled = this.shuffleTiles(unshuffled);
