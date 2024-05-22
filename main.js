@@ -3,8 +3,7 @@ import chalk from "chalk";
 import chalkAnimation from "chalk-animation";
 
 //  MEMORY GAME FOR 2 PLAYERS
-// test mode, change line  20 to 0
-
+// test mode?, change line  20 to 0
 // Colors
 
 let color1 = "#3EB489"; //former magenta :> mint
@@ -174,20 +173,21 @@ class Game {
   }
 
   getWinner() {
-    return this.player1.score > this.player2.score
+    return this.player1.score >= this.player2.score
       ? this.player1.name
       : this.player2.name;
   }
 
   congratWinner() {
-    let winner = this.getWinner();
+    console.clear();
+    console.log(chalk.hex(color1)(`\t\tGAME OVER`));
+    this.showScore();
     console.log(
       chalk.hex(color1)(
-        `\tThe final score is:\n\t${this.player1.name}: ${this.player1.score} vs. ${this.player2.name}: ${this.player2.score}\n\tCongratulations`
-      ) +
-        `\n\t\t` +
-        chalkAnimation.rainbow(winner) +
-        chalk.hex(color1)`\n\tYou won the game!`
+        `\n\n\tCongratulations\n\n\t\t${chalk.hex(color4).bgHex(color3)(
+          this.getWinner()
+        )}\n\n\tYou won the game!\n\n`
+      )
     );
   }
 
