@@ -1,9 +1,9 @@
 import readlineSync from "readline-sync";
 import chalk from "chalk";
-import chalkAnimation from "chalk-animation";
+//import chalkAnimation from "chalk-animation";
 
 //  MEMORY GAME FOR 2 PLAYERS
-// test mode?, change line  20 to 0
+// test winning mode?, change line  20 to 0
 // Colors
 
 let color1 = "#3EB489"; //former magenta :> mint
@@ -14,9 +14,9 @@ let color4 = "#32012F"; // dark purple for text
 //  Classes
 
 class Player {
-  constructor(name) {
+  constructor(name, score = 0) {
     this.name = name;
-    this.score = 0;
+    this.score = score;
   }
   scoreOne() {
     this.score++;
@@ -71,7 +71,6 @@ class Game {
     this.board = this.setNewBoard();
     this.turnCount = 0;
     this.currentPlayer = this.updateCurrentPlayer();
-    this.playGame = this.playGame();
   }
 
   //   Set up
@@ -83,7 +82,7 @@ class Game {
           `                                  `
         )}\n\t${chalk.bgHex(color2)(
           `                       ${chalk.hex(color1)("MEMOR-ICE")}  `
-        )}\n\t\tThe coolest memory game for\n\t\t${chalk.bgHex(color1)(
+        )}\n\n\t\tThe coolest memory game for\n\t\t${chalk.bgHex(color1)(
           `                                                       `
         )}\n\t\t${chalk.bgHex(color2)(
           `                                           ${chalk.hex(color1)(
@@ -323,3 +322,4 @@ const SYMBOLS = [
 
 console.clear();
 const game = new Game();
+game.playGame();
