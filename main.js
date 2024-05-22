@@ -32,22 +32,26 @@ class Board {
     this.e = e;
     this.f = f;
   }
+
   showBoard() {
     console.log(
-      chalk.hex(color3)(`\t\t   1\t   2\t   3\t   4\t   5\n\n
-      A:\t${this.a[0].display} ${this.a[1].display} ${this.a[2].display} ${this.a[3].display} ${this.a[4].display}\n
-      B:\t${this.b[0].display} ${this.b[1].display} ${this.b[2].display} ${this.b[3].display} ${this.b[4].display}\n
-      C:\t${this.c[0].display} ${this.c[1].display} ${this.c[2].display} ${this.c[3].display} ${this.c[4].display}\n
-      D:\t${this.d[0].display} ${this.d[1].display} ${this.d[2].display} ${this.d[3].display} ${this.d[4].display}\n
-      E:\t${this.e[0].display} ${this.e[1].display} ${this.e[2].display} ${this.e[3].display} ${this.e[4].display}\n
-      F:\t${this.f[0].display} ${this.f[1].display} ${this.f[2].display} ${this.f[3].display} ${this.f[4].display}\n`)
+      `\t\t   ` + this.a.map((_, index) => index + 1).join(`\t   `) + `\n`
     );
+    for (const [key, value] of Object.entries(this)) {
+      console.log(
+        chalk.hex(color3)(
+          `\t${key.toUpperCase()}:\t${value
+            .map((item) => item.display)
+            .join(" ")}\n`
+        )
+      );
+    }
   }
 }
 
 class Tile {
-  constructor(symbol, covered = chalk.bgHex(color1)("[     ]")) {
-    this.symbol = chalk.bgHex(color2)(`[  ${symbol}  ]`);
+  constructor(symbol, covered = chalk.bgHex(color1).hex(color3)("[     ]")) {
+    this.symbol = chalk.bgHex(color2).hex(color3)(`[  ${symbol}  ]`);
     this.isRevealed = false;
     this.display = covered;
     this.covered = covered;
