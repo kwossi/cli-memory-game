@@ -16,7 +16,7 @@ let color4 = "#32012F"; // dark purple for text
 class Player {
   constructor(name) {
     this.name = name;
-    this.score = 7.5;
+    this.score = 0;
   }
   scoreOne() {
     this.score++;
@@ -212,7 +212,10 @@ class Game {
 
   getTile(input) {
     const [row, col] = input.split("");
-    if (this.board?.[row]?.[+col - 1]) {
+    if (input.length > 2) {
+      console.log(chalk.hex(color3)(`\tInput too long. Try again!`));
+      return false;
+    } else if (this.board?.[row]?.[+col - 1]) {
       return this.board[row][+col - 1];
     } else {
       console.log(chalk.hex(color3)(`\tInvalid input. Try again!`));
