@@ -18,8 +18,17 @@ class Player {
     this.name = name;
     this.score = score;
   }
+
   scoreOne() {
     this.score++;
+  }
+
+  static createPlayer(which) {
+    let name = readlineSync.question(
+      chalk.hex(color1)(`\t${which}, please enter your name: `)
+    );
+    console.log(chalk.hex(color3)(`\tThank you ${name}! Please take a seat!`));
+    return new Player(name);
   }
 }
 
@@ -68,17 +77,17 @@ class Tile {
 
 class Game {
   constructor() {
-    this.welcome = this.welcomeScreen();
-    this.rules = this.showRules();
-    this.player1 = this.createPlayer("Player 1");
-    this.player2 = this.createPlayer("Player 2");
+    //this.welcome = this.welcomeScreen();
+    //this.rules = this.showRules();
+    this.player1 = Player.createPlayer("Player 1");
+    this.player2 = Player.createPlayer("Player 2");
     this.board = this.setNewBoard();
     this.turnCount = 0;
     this.currentPlayer = this.updateCurrentPlayer();
   }
 
   //   Set up
-  welcomeScreen() {
+  static welcomeScreen() {
     console.clear();
     console.log(
       chalk.hex(color3)(
@@ -98,7 +107,7 @@ class Game {
     readlineSync.question(`\t\t\t${chalk.hex(color1)("Press enter to play!")}`);
   }
 
-  showRules() {
+  static showRules() {
     console.clear();
     console.log(
       chalk.hex(color4)(
@@ -113,14 +122,6 @@ class Game {
     );
     readlineSync.question(chalk.hex(color1)(`\t\t\tUnderstood!`));
     console.clear();
-  }
-
-  createPlayer(which) {
-    let name = readlineSync.question(
-      chalk.hex(color1)(`\t${which}, please enter your name: `)
-    );
-    console.log(chalk.hex(color3)(`\tThank you ${name}! Please take a seat!`));
-    return new Player(name);
   }
 
   shuffleTiles(array) {
@@ -297,11 +298,14 @@ class Game {
     this.checkForMatch(currentTiles);
   }
 
-  playGame() {
-    while (this.player1.score + this.player2.score < 15) {
-      this.oneTurn();
+  static playGame() {
+    Game.welcomeScreen();
+    Game.showRules();
+    let game = new Game();
+    while (game.player1.score + game.player2.score < 15) {
+      game.oneTurn();
     }
-    this.congratWinner();
+    game.congratWinner();
   }
 }
 
@@ -325,5 +329,4 @@ const SYMBOLS = [
 ];
 
 console.clear();
-const game = new Game();
-game.playGame();
+Game.playGame();
