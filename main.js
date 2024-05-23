@@ -4,9 +4,9 @@ import chalk from "chalk";
 //  MEMORY GAME FOR 2 PLAYERS
 // Colors
 
-let color1 = "#3EB489"; //former magenta :> mint
-let color2 = "#C71585"; // former yellow :> purple
-let color3 = "#FFD700"; // former cyan :> yellow
+let color1 = "#3EB489"; // mint
+let color2 = "#C71585"; // purple
+let color3 = "#FFD700"; // yellow
 let color4 = "#32012F"; // dark purple for text
 
 //  Classes
@@ -106,8 +106,6 @@ class Tile {
 
 class Game {
   constructor() {
-    //this.welcome = this.welcomeScreen();
-    //this.rules = this.showRules();
     this.player1 = Player.createPlayer("Player 1");
     this.player2 = Player.createPlayer("Player 2");
     this.board = Board.setNewBoard();
