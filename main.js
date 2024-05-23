@@ -1,13 +1,14 @@
 import readlineSync from "readline-sync";
 import chalk from "chalk";
+import gradient from "gradient-string";
 
 //  MEMORY GAME FOR 2 PLAYERS
 // Colors
 
-let color1 = "#3EB489"; // mint
-let color2 = "#C71585"; // purple
-let color3 = "#FFD700"; // yellow
-let color4 = "#32012F"; // dark purple for text
+let color1 = "#3EB489";
+let color2 = "#C71585";
+let color3 = "#FFD700";
+let color4 = "#32012F";
 
 //  Classes
 
@@ -299,7 +300,8 @@ class Game {
   static playGame() {
     Game.welcomeScreen();
     Game.showRules();
-    let game = new Game();
+    const game = new Game();
+    readlineSync.question(chalk.hex(color1)(`\tContinue`));
     while (game.player1.score + game.player2.score < 15) {
       game.oneTurn();
     }
