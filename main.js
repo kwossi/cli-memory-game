@@ -56,6 +56,35 @@ class Board {
       );
     }
   }
+
+  static shuffleTiles(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  static getRows(array) {
+    let rows = [];
+    for (let i = 0; i < array.length; i += 5) {
+      let row = array.slice(i, i + 5);
+      rows.push(row);
+    }
+    return rows;
+  }
+
+  static setNewBoard() {
+    const unshuffled = [];
+    for (let sym of SYMBOLS) {
+      const tileA = new Tile(sym);
+      const tileB = new Tile(sym);
+      unshuffled.push(tileA, tileB);
+    }
+    const shuffled = Board.shuffleTiles(unshuffled);
+    const board = new Board(Board.getRows(shuffled));
+    return board;
+  }
 }
 
 class Tile {
@@ -81,7 +110,7 @@ class Game {
     //this.rules = this.showRules();
     this.player1 = Player.createPlayer("Player 1");
     this.player2 = Player.createPlayer("Player 2");
-    this.board = this.setNewBoard();
+    this.board = Board.setNewBoard();
     this.turnCount = 0;
     this.currentPlayer = this.updateCurrentPlayer();
   }
@@ -122,35 +151,6 @@ class Game {
     );
     readlineSync.question(chalk.hex(color1)(`\t\t\tUnderstood!`));
     console.clear();
-  }
-
-  shuffleTiles(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
-
-  getRows(array) {
-    let rows = [];
-    for (let i = 0; i < array.length; i += 5) {
-      let row = array.slice(i, i + 5);
-      rows.push(row);
-    }
-    return rows;
-  }
-
-  setNewBoard() {
-    const unshuffled = [];
-    for (let sym of SYMBOLS) {
-      const tileA = new Tile(sym);
-      const tileB = new Tile(sym);
-      unshuffled.push(tileA, tileB);
-    }
-    const shuffled = this.shuffleTiles(unshuffled);
-    const board = new Board(this.getRows(shuffled));
-    return board;
   }
 
   //   game play functions
