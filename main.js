@@ -1,9 +1,7 @@
 import readlineSync from "readline-sync";
 import chalk from "chalk";
-//import chalkAnimation from "chalk-animation";
 
 //  MEMORY GAME FOR 2 PLAYERS
-// test winning mode?, change line  20 to 0
 // Colors
 
 let color1 = "#3EB489"; //former magenta :> mint
@@ -35,7 +33,9 @@ class Board {
 
   showBoard() {
     console.log(
-      `\t\t   ` + this.a.map((_, index) => index + 1).join(`\t   `) + `\n`
+      chalk.hex(color3)(
+        `\t\t   ` + this.a.map((_, index) => index + 1).join(`\t   `) + `\n`
+      )
     );
     for (const [key, value] of Object.entries(this)) {
       console.log(
