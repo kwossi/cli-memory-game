@@ -121,8 +121,8 @@ class Game {
         `\tWelcome to \n\t${chalk.bgHex(color1)(
           `                                  `
         )}\n\t${chalk.bgHex(color2)(
-          `                       ${chalk.hex(color1)("MEMOR-ICE")}  `
-        )}\n\n\t\tThe coolest memory game for\n\t\t${chalk.bgHex(color1)(
+          `                     ${chalk.hex(color1)("PIXEL PAIRS")}  `
+        )}\n\n\t\tA memory game for\n\t\t${chalk.bgHex(color1)(
           `                                                       `
         )}\n\t\t${chalk.bgHex(color2)(
           `                                           ${chalk.hex(color1)(
