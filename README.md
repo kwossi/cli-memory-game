@@ -1,4 +1,4 @@
-# memor-ICE
+# PIXEL PAIRS
 
 ### A CLI-memory game for 2 players
 
