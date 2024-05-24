@@ -1,4 +1,4 @@
-# MEMOR-ice
+# memor-ICE
 
 ### A CLI-memory game for 2 players
 
