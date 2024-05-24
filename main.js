@@ -1,6 +1,5 @@
 import readlineSync from "readline-sync";
 import chalk from "chalk";
-import gradient from "gradient-string";
 
 //  MEMORY GAME FOR 2 PLAYERS
 // Colors
@@ -156,13 +155,13 @@ class Game {
   showScore() {
     console.log(
       chalk.hex(color4)(
-        `\n\n\t${chalk.bgHex(color1)(
-          "Score:                       "
-        )}\n\t${chalk.bgHex(color2)(
-          "                             "
-        )}\n\t${chalk.bgHex(color3)(this.player1.name)} ${chalk.white(
+        `\n\t\t${chalk.bgHex(color1)(
+          "Score:                                 "
+        )}\n\t\t${chalk.bgHex(color2)(
+          "                                       "
+        )}\n\t\t${chalk.bgHex(color3)(this.player1.name)} ${chalk.white(
           this.player1.score
-        )}\t${chalk.bgHex(color3)(this.player2.name)} ${chalk.white(
+        )}\t\t${chalk.bgHex(color3)(this.player2.name)} ${chalk.white(
           this.player2.score
         )}\n\n`
       )
@@ -183,13 +182,13 @@ class Game {
 
   congratWinner() {
     console.clear();
-    console.log(chalk.hex(color1)(`\t\tGAME OVER`));
+    console.log(chalk.hex(color1)(`\t\t\tGAME OVER`));
     this.showScore();
     console.log(
       chalk.hex(color1)(
-        `\n\n\tCongratulations\n\n\t\t${chalk.hex(color4).bgHex(color3)(
+        `\n\n\t\tCongratulations\n\n\t\t${chalk.hex(color4).bgHex(color3)(
           this.getWinner()
-        )}\n\n\tYou won the game!\n\n`
+        )}\n\n\t\tYou won the game!\n\n`
       )
     );
   }
