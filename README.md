@@ -19,7 +19,13 @@ git clone https://github.com/kwossi/cli-memory-game
 cd cli-memory-game
 ```
 
-Ensure you have node installed, then start the game with:
+Ensure you have a version of node and npm installed. Install dependencies with:
+
+```bash
+npm install
+```
+
+Then start the game with:
 
 ```bash
 node main.js
@@ -48,7 +54,7 @@ There are more features planned for this game, so stay tuned for updates.
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. See the [License](License) file for details.
 
 ## Acknowledgements
 
